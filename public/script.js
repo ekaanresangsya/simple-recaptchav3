@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const btn = document.getElementById('getTokenBtn');
+    const copyBtn = document.getElementById('copyTokenBtn');
     const display = document.getElementById('token-display');
     let siteKey = null;
     let recaptchaLoaded = false;
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 grecaptcha.execute(siteKey, { action: 'submit' })
                     .then((token) => {
                         log(token);
+                        copyBtn.style.display = 'inline-block';
                     })
                     .catch((err) => {
                         console.error('Execution error:', err);
@@ -71,6 +73,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (e) {
             console.error('Exception:', e);
             log('Exception during execution: ' + e.message);
+        }
+    });
+
+
+    // 4. Handle Copy Button Click
+    copyBtn.addEventListener('click', async () => {
+        const token = display.value;
+        if (!token) return;
+
+        try {
+            await navigator.clipboard.writeText(token);
+            const originalText = copyBtn.innerText;
+            copyBtn.innerText = 'Copied!';
+            copyBtn.style.backgroundColor = '#2e7d32'; // Darker green
+
+            setTimeout(() => {
+                copyBtn.innerText = originalText;
+                copyBtn.style.backgroundColor = '#34a853'; // Original green
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy:', err);
+            log('Error copying to clipboard');
         }
     });
 });
