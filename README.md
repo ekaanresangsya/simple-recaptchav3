@@ -11,7 +11,7 @@ A simple Node.js web application to generate reCAPTCHA v3 tokens.
 
 1.  Clone the repository:
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/ekaanresangsya/simple-recaptchav3
     cd recaptchav3
     ```
 
